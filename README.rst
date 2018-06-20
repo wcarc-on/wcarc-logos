@@ -1,5 +1,5 @@
-wcarc-logo
-==========
+wcarc-logos
+===========
 
 
 The map projection is this one:
