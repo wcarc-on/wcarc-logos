@@ -20,7 +20,7 @@ thumb: $(THUMB)
 pdf: $(PDF)
 
 wcc_logo.svg:
-	@./gen_logo.py > wcc_logo.svg
+	@./gen_logo.py
 
 %.png: %.svg
 	@inkscape --export-png=$@ $<
