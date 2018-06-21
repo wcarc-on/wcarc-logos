@@ -66,4 +66,4 @@ text.add(dwg.text('WCARC', insert=(-1, 24), text_anchor='middle',
                   font_size='65px', font_family='Arial Black',
                   fill='red', stroke='black', stroke_width=2))
 
-dwg.save()
+dwg.save(pretty=True)
