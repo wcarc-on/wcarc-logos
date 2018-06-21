@@ -19,7 +19,7 @@ thumb: $(THUMB)
 .PHONY: pdf
 pdf: $(PDF)
 
-wcc_logo.svg:
+wcc_logo.svg: gen_logo.py
 	@./gen_logo.py
 
 %.png: %.svg
