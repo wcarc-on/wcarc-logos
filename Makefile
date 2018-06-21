@@ -1,11 +1,11 @@
 SHELL = /bin/bash
 
-SVG = $(wildcard *.svg)
+SVG = wcc_logo.svg
 PNG = $(SVG:.svg=.png)
 THUMB = $(SVG:.svg=.thumb.png)
 PDF = $(SVG:.svg=.pdf)
 
-GENERATED_FILES = $(PNG) $(THUMB) $(PDF)
+GENERATED_FILES = $(SVG) $(PNG) $(THUMB) $(PDF)
 
 .PHONY: all
 all: $(GENERATED_FILES)
@@ -18,6 +18,9 @@ thumb: $(THUMB)
 
 .PHONY: pdf
 pdf: $(PDF)
+
+wcc_logo.svg:
+	@./gen_logo.py > wcc_logo.svg
 
 %.png: %.svg
 	@inkscape --export-png=$@ $<
