@@ -40,30 +40,41 @@ def plot(dwg, grp, coords, midx=[0], tabs=3):
         path.push(letter, round(x, 3), round(y, 3))
 
 
-dwg = svgwrite.Drawing(filename='wcc_logo.svg', size=(730, 370))
+def generate(filename, width, thumb=False):
+    height = width / 2
+    border = height / 100
+    tot_width, tot_height = width + border*2, height + border*2
+    ellipse_width, grid_width, text_stroke = (4, 2, 3) if thumb else (2, 1, 2)
 
-map = dwg.add(dwg.g())
-map.matrix(2, 0, 0, -2, 365, 185)
-map.add(dwg.ellipse(center=(0, 0), r=(180, 90), fill='white',
-                    stroke='black', stroke_width=2))
-for lon in range(30, 180, 30):
-    map.add(dwg.ellipse(center=(0, 0), r=(lon, 90), fill='none',
-                        stroke='black', stroke_width=1))
-map.add(dwg.line(start=(0, -90), end=(0, 90), stroke='black', stroke_width=1))
-for lat in range(-60, 90, 30):
-    x, y = mollweide(lat, 180)
-    map.add(dwg.line(start=(-x, y), end=(x, y),
-                     stroke='black', stroke_width=1))
+    dwg = svgwrite.Drawing(filename=filename, size=(tot_width, tot_height))
 
-sf = shapefile.Reader('mapdata/ne_110m_land')
-for record, shape in zip(sf.records(), sf.shapes()):
-    if len(shape.points) > 20:
-        plot(dwg, map, shape.points, midx=shape.parts)
+    map = dwg.add(dwg.g())
+    map.matrix(width / 360, 0, 0, -height / 180, tot_width / 2, tot_height / 2)
+    map.add(dwg.ellipse(center=(0, 0), r=(180, 90), fill='white',
+                        stroke='black', stroke_width=ellipse_width))
+    for lon in range(30, 180, 30):
+        map.add(dwg.ellipse(center=(0, 0), r=(lon, 90), fill='none',
+                            stroke='black', stroke_width=grid_width))
+    map.add(dwg.line(start=(0, -90), end=(0, 90),
+                     stroke='black', stroke_width=grid_width))
+    for lat in range(-60, 90, 30):
+        x, y = mollweide(lat, 180)
+        map.add(dwg.line(start=(-x, y), end=(x, y),
+                         stroke='black', stroke_width=grid_width))
 
-text = dwg.add(dwg.g())
-text.matrix(2, 0, 0, 2, 365, 185)
-text.add(dwg.text('WCARC', insert=(-1, 24), text_anchor='middle',
-                  font_size='65px', font_family='Arial Black',
-                  fill='red', stroke='black', stroke_width=2))
+    sf = shapefile.Reader('mapdata/ne_110m_land')
+    for record, shape in zip(sf.records(), sf.shapes()):
+        if len(shape.points) > 20:
+            plot(dwg, map, shape.points, midx=shape.parts)
 
-dwg.save(pretty=True)
+    text = dwg.add(dwg.g())
+    text.matrix(width / 360, 0, 0, height / 180, tot_width / 2, tot_height / 2)
+    text.add(dwg.text('WCARC', insert=(2, 28), text_anchor='middle',
+                      font_size='80px', font_family='Montserrat Black',
+                      fill='red', stroke='black', stroke_width=text_stroke))
+
+    dwg.save(pretty=True)
+
+
+generate('wcc_logo.svg', width=600)
+generate('wcc_logo_thumb.svg', width=100, thumb=True)
