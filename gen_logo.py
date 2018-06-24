@@ -41,10 +41,10 @@ def plot(dwg, grp, coords, midx=[0], tabs=3):
 
 
 def generate(filename, width, thumb=False):
-    height = width / 2
-    border = height / 100
-    tot_width, tot_height = width + border*2, height + border*2
     ellipse_width, grid_width, text_stroke = (4, 2, 3) if thumb else (2, 1, 2)
+    height = width / 2
+    padding = height * ellipse_width / 360
+    tot_width, tot_height = width + padding*2, height + padding*2
 
     dwg = svgwrite.Drawing(filename=filename, size=(tot_width, tot_height))
 
@@ -76,5 +76,5 @@ def generate(filename, width, thumb=False):
     dwg.save(pretty=True)
 
 
-generate('wcc_logo.svg', width=600)
+generate('wcc_logo.svg', width=601)
 generate('wcc_logo_thumb.svg', width=100, thumb=True)
