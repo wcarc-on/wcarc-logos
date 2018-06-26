@@ -70,8 +70,9 @@ def generate(filename, width, thumb=False):
     text = dwg.add(dwg.g())
     text.matrix(width / 360, 0, 0, height / 180, tot_width / 2, tot_height / 2)
     text.add(dwg.text('WCARC', insert=(2, 28), text_anchor='middle',
-                      font_size='80px', font_family='Montserrat Black',
-                      fill='red', stroke='black', stroke_width=text_stroke))
+                      font_size='80px', font_family='Montserrat',
+                      font_weight=900, fill='red',
+                      stroke='black', stroke_width=text_stroke))
 
     dwg.save(pretty=True)
 
