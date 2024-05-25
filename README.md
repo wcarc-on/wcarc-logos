@@ -5,6 +5,8 @@ wcarc-logos
 
 ```
 sudo apt install inkscape
+python3 -m venv venv
+source venv/bin/activate
 pip3 install pyshp svgwrite
 mkdir -p ~/.fonts
 cp fonts/Montserrat-Black.ttf ~/.fonts/
