@@ -23,16 +23,16 @@ wcc_logo.svg: gen_logo.py
 	@./gen_logo.py
 
 %_path.svg: %.svg
-	@inkscape --export-text-to-path --export-plain-svg=$@ $<
+	@inkscape --export-text-to-path --export-plain-svg --export-filename=$@ $<
 
 %.png: %.svg
-	@inkscape --export-png=$@ $<
+	@inkscape --export-filename=$@ $<
 
 wcc_logo_icon.png: wcc_logo_thumb.svg
-	@inkscape -w 64 -h 64 --export-png=$@ $<
+	@inkscape -w 64 -h 64 --export-filename=$@ $<
 
 %.pdf: %.svg
-	@inkscape --export-text-to-path --export-pdf=$@ $<
+	@inkscape --export-text-to-path --export-filename=$@ $<
 
 .PHONY: clean
 clean:
